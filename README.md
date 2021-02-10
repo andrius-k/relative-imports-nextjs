@@ -1,23 +1,27 @@
-# next-page-transitions example
+# A sample nextjs app to demonstrate the effectiveness of a PR
 
-The [`next-page-transitions`](https://github.com/illinois/next-page-transitions) library is a component that sits at the app level and allows you to animate page changes. It works especially nicely with apps with a shared layout element, like a navbar. This component will ensure that only one page is ever mounted at a time, and manages the timing of animations for you. This component works similarly to [`react-transition-group`](https://github.com/reactjs/react-transition-group) in that it applies classes to a container around your page; it's up to you to write the CSS transitions or animations to make things pretty!
+Sample was made following the instructions listed here: https://github.com/vercel/next.js/tree/canary/examples/with-next-page-transitions
 
-This example includes two pages with links between them. The "About" page demonstrates how `next-page-transitions` makes it easy to add a loading state when navigating to a page: it will wait for the page to "load" its content (in this examples, that's simulated with a timeout) and then hide the loading indicator and animate in the page when it's done.
+the pull request in question removes the restriction that prohibits us from using `.` as a basePath. Over at CERN, we need to be able to host multiple versions exactly the same statically exported web site, on the same domain. Think like this:
 
-## Deploy your own
+https://department.cern.ch/group/service1/
+https://department.cern.ch/group/service2/
+https://department.cern.ch/group/service2/
+... we have about 10 different services.
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
+A static export is about 100MB. Exporting deploying all 10 versions with the only difference of `basePath` adds up to 10GB of websites and seems very inefficient. Therefore, we suggest to lift this restriction: https://github.com/vercel/next.js/blob/canary/packages/next/next-server/server/config.ts#L222-L226 and allow a `.` to be a valid `basePath` value. This ensures that all static dependencies are taken using relative paths.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-next-page-transitions&project-name=with-next-page-transitions&repository-name=with-next-page-transitions)
+A small adjustment was made to this example: hrefs were changed to contain `.html` suffix to ensure correct routing.
 
-## How to use
+# How to run:
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
+``` bash
+# Export a static version of the webpage (to out/ directory)
+npm run build
 
-```bash
-npx create-next-app --example with-next-page-transitions with-next-page-transitions-app
-# or
-yarn create next-app --example with-next-page-transitions with-next-page-transitions-app
+# Serve it with your favourite web server
+python -m SimpleHTTPServer
 ```
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+Now navigate to `localhost:8000/out/index.html`. Navigate to back and forth between pages to ensure that prefix `out` remains in the url, and static files load correctly.
+

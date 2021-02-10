@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "next",
-    "build": "next build",
+    "build": "next build && next export",
     "start": "next start"
   },
   "dependencies": {
-    "next": "latest",
+    "next": "file:../../frontend_test/next.js/packages/next",
     "next-page-transitions": "1.0.0-beta.2",
     "react": "^16.7.0",
     "react-dom": "^16.7.0"
