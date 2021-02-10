@@ -5,8 +5,11 @@ Sample was made following the instructions listed here: https://github.com/verce
 The pull request in question removes the restriction that prohibits us from using `.` as a `basePath`. Over at CERN, we need to be able to host multiple versions of exactly the same statically exported web site, on the same domain. Think like this:
 
 https://department.cern.ch/group/service1/
+
 https://department.cern.ch/group/service2/
+
 https://department.cern.ch/group/service2/
+
 ... we have about 10 different services.
 
 A static export is about 100MB. Exporting and deploying all 10 versions with the only difference of `basePath` adds up to 10GB of websites and seems very inefficient. Therefore, we suggest to lift this restriction: https://github.com/vercel/next.js/blob/canary/packages/next/next-server/server/config.ts#L222-L226 and allow a `.` to be a valid `basePath` value. This ensures that all static dependencies are taken using relative paths.
