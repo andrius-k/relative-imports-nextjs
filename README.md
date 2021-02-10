@@ -16,6 +16,8 @@ A static export is about 100MB. Exporting and deploying all 10 versions with the
 
 A small adjustment was made to this example: hrefs were changed to contain `.html` suffix to ensure correct routing.
 
+Th PR is here: https://github.com/vercel/next.js/pull/22023
+
 # How to run:
 
 ``` bash
