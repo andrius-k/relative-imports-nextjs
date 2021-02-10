@@ -8,7 +8,7 @@ https://department.cern.ch/group/service1/
 
 https://department.cern.ch/group/service2/
 
-https://department.cern.ch/group/service2/
+https://department.cern.ch/group/service3/
 
 ... we have about 10 different services.
 
